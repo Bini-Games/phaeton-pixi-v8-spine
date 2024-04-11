@@ -12,7 +12,7 @@ import type { Skeleton } from './Skeleton';
  * */
 export class Slot implements ISlot {
     // this is canon
-    blendMode: number;
+    blendMode: string;
     /** The slot's setup pose data. */
     data: SlotData;
 

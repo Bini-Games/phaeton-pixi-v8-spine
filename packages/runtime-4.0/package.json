@@ -22,7 +22,7 @@
   },
   "peerDependencies": {
     "@pixi-v8-patch-spine/base": "^5.0.0",
-    "@pixi/core": "^7.0.0"
+    "pixi.js": "8.0.0"
   },
   "scripts": {
     "build": "run-p build:*",

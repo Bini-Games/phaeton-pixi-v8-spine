@@ -9,7 +9,7 @@ import type { SlotData } from './SlotData';
  */
 export class Slot implements ISlot {
     // this is canon
-    blendMode: number;
+    blendMode: string;
     data: SlotData;
     bone: Bone;
     color: Color;

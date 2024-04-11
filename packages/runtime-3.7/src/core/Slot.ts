@@ -8,7 +8,7 @@ import type { SlotData } from './SlotData';
  * @public
  */
 export class Slot implements ISlot {
-    blendMode: number;
+    blendMode: string;
 
     // this is canon
     data: SlotData;

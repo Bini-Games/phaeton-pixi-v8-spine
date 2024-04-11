@@ -29,7 +29,6 @@ import {
     TwoColorTimeline,
 } from './Animation';
 import { AttachmentType, BinaryInput, Color, PositionMode, RotateMode, TransformMode, Utils } from '@pixi-v8-patch-spine/base';
-import { BLEND_MODES } from '@pixi/core';
 
 /**
  * @public
@@ -49,7 +48,7 @@ export class SkeletonBinary {
     static PositionModeValues = [PositionMode.Fixed, PositionMode.Percent];
     static SpacingModeValues = [SpacingMode.Length, SpacingMode.Fixed, SpacingMode.Percent];
     static RotateModeValues = [RotateMode.Tangent, RotateMode.Chain, RotateMode.ChainScale];
-    static BlendModeValues = [BLEND_MODES.NORMAL, BLEND_MODES.ADD, BLEND_MODES.MULTIPLY, BLEND_MODES.SCREEN];
+    static BlendModeValues = ['normal', 'add', 'multiply', 'screen'];
 
     static BONE_ROTATE = 0;
     static BONE_TRANSLATE = 1;
@@ -147,7 +146,7 @@ export class SkeletonBinary {
             if (darkColor != -1) Color.rgb888ToColor((data.darkColor = new Color()), darkColor);
 
             data.attachmentName = input.readStringRef();
-            data.blendMode = SkeletonBinary.BlendModeValues[input.readInt(true)];
+            data.blendMode = SkeletonBinary.BlendModeValues[SkeletonBinary.blendModeFromNumber(input.readInt(true))];
             skeletonData.slots.push(data);
         }
 
@@ -847,6 +846,14 @@ export class SkeletonBinary {
 
     setCurve(timeline: CurveTimeline, frameIndex: number, cx1: number, cy1: number, cx2: number, cy2: number) {
         timeline.setCurve(frameIndex, cx1, cy1, cx2, cy2);
+    }
+
+    static blendModeFromNumber(num: number) {
+        if (num == 0) return 'normal';
+        if (num == 1) return 'add';
+        if (num == 2) return 'multiply';
+        if (num == 3) return 'screen';
+        throw new Error(`Unknown blend mode: ${num}`);
     }
 }
 

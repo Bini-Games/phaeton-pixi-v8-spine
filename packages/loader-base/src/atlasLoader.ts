@@ -1,7 +1,8 @@
 import { TextureAtlas } from '@pixi-v8-patch-spine/base';
-import { type AssetExtension, LoaderParserPriority, LoadAsset, Loader, checkExtension } from '@pixi/assets';
-import { BaseTexture, extensions, ExtensionType, settings, Texture, utils } from '@pixi/core';
+import { type AssetExtension, LoaderParserPriority, Loader, checkExtension, DOMAdapter } from 'pixi.js';
+import { TextureSource, extensions, ExtensionType, Texture, path } from 'pixi.js';
 import type { ISpineMetadata } from './SpineLoaderAbstract';
+import type { LoadAsset } from './SpineLoaderAbstract';
 
 type RawAtlas = string;
 
@@ -24,7 +25,7 @@ const spineTextureAtlasLoader: AssetExtension<RawAtlas | TextureAtlas, ISpineMet
         },
 
         async load(url: string): Promise<RawAtlas> {
-            const response = await settings.ADAPTER.fetch(url);
+            const response = await DOMAdapter.get().fetch(url);
 
             const txt = await response.text();
 
@@ -40,7 +41,7 @@ const spineTextureAtlasLoader: AssetExtension<RawAtlas | TextureAtlas, ISpineMet
 
         async parse(asset: RawAtlas, options: LoadAsset, loader: Loader): Promise<TextureAtlas> {
             const metadata: ISpineMetadata = options.data;
-            let basePath = utils.path.dirname(options.src);
+            let basePath = path.dirname(options.src);
 
             if (basePath && basePath.lastIndexOf('/') !== basePath.length - 1) {
                 basePath += '/';
@@ -96,14 +97,14 @@ const spineTextureAtlasLoader: AssetExtension<RawAtlas | TextureAtlas, ISpineMet
  * @public
  */
 export const makeSpineTextureAtlasLoaderFunctionFromPixiLoaderObject = (loader: Loader, atlasBasePath: string, imageMetadata: any) => {
-    return async (pageName: string, textureLoadedCallback: (tex: BaseTexture) => any): Promise<void> => {
+    return async (pageName: string, textureLoadedCallback: (tex: TextureSource) => any): Promise<void> => {
         // const url = utils.path.join(...atlasBasePath.split(utils.path.sep), pageName); // Broken in upstream
 
-        const url = utils.path.normalize([...atlasBasePath.split(utils.path.sep), pageName].join(utils.path.sep));
+        const url = path.normalize([...atlasBasePath.split(path.sep), pageName].join(path.sep));
 
         const texture = await loader.load<Texture>({ src: url, data: imageMetadata });
 
-        textureLoadedCallback(texture.baseTexture);
+        textureLoadedCallback(texture.source);
     };
 };
 

@@ -40,7 +40,6 @@ import { PathConstraintData, SpacingMode } from './PathConstraintData';
 import { Skin } from './Skin';
 import { EventData } from './EventData';
 import { AttachmentType, BinaryInput, Color, PositionMode, Utils } from '@pixi-v8-patch-spine/base';
-import { BLEND_MODES } from '@pixi/core';
 
 /** Loads skeleton data in the Spine binary format.
  *
@@ -50,7 +49,7 @@ import { BLEND_MODES } from '@pixi/core';
  * @public
  * */
 export class SkeletonBinary {
-    static BlendModeValues = [BLEND_MODES.NORMAL, BLEND_MODES.ADD, BLEND_MODES.MULTIPLY, BLEND_MODES.SCREEN];
+    static BlendModeValues = ['normal', 'add', 'multiply', 'screen'];
     /** Scales bone positions, image sizes, and translations as they are loaded. This allows different size images to be used at
      * runtime than were used in Spine.
      *
@@ -138,7 +137,7 @@ export class SkeletonBinary {
             if (darkColor != -1) Color.rgb888ToColor((data.darkColor = new Color()), darkColor);
 
             data.attachmentName = input.readStringRef();
-            data.blendMode = SkeletonBinary.BlendModeValues[input.readInt(true)];
+            data.blendMode = SkeletonBinary.BlendModeValues[SkeletonBinary.blendModeFromNumber(input.readInt(true))];
             skeletonData.slots.push(data);
         }
 
@@ -1054,6 +1053,14 @@ export class SkeletonBinary {
         for (let i = 0, n = timelines.length; i < n; i++) duration = Math.max(duration, timelines[i].getDuration());
 
         return new Animation(name, timelines, duration);
+    }
+
+    static blendModeFromNumber(num: number) {
+        if (num == 0) return 'normal';
+        if (num == 1) return 'add';
+        if (num == 2) return 'multiply';
+        if (num == 3) return 'screen';
+        throw new Error(`Unknown blend mode: ${num}`);
     }
 }
 

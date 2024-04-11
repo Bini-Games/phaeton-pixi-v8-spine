@@ -1,6 +1,6 @@
 import { ISkeletonData, ISkeletonParser, TextureAtlas } from '@pixi-v8-patch-spine/base';
-import { AssetExtension, checkExtension, LoadAsset, Loader, LoaderParserPriority } from '@pixi/assets';
-import { BaseTexture, extensions, ExtensionType, settings, Texture, utils } from '@pixi/core';
+import { AssetExtension, checkExtension, Loader, LoaderParserPriority } from 'pixi.js';
+import { TextureSource, extensions, ExtensionType, Texture, path, DOMAdapter } from 'pixi.js';
 import { makeSpineTextureAtlasLoaderFunctionFromPixiLoaderObject } from './atlasLoader';
 
 type SPINEJSON = any;
@@ -45,7 +45,7 @@ export abstract class SpineLoaderAbstract<SKD extends ISkeletonData> {
                 },
 
                 async load<SPINEBINARY>(url: string): Promise<SPINEBINARY> {
-                    const response = await settings.ADAPTER.fetch(url);
+                    const response = await DOMAdapter.get().fetch(url);
 
                     const buffer = await response.arrayBuffer();
 
@@ -65,9 +65,9 @@ export abstract class SpineLoaderAbstract<SKD extends ISkeletonData> {
                 },
 
                 async parse(asset: SPINEJSON | SPINEBINARY, loadAsset, loader): Promise<ISpineResource<SKD>> {
-                    const fileExt = utils.path.extname(loadAsset.src).toLowerCase();
-                    const fileName = utils.path.basename(loadAsset.src, fileExt);
-                    let basePath = utils.path.dirname(loadAsset.src);
+                    const fileExt = path.extname(loadAsset.src).toLowerCase();
+                    const fileName = path.basename(loadAsset.src, fileExt);
+                    let basePath = path.dirname(loadAsset.src);
 
                     if (basePath && basePath.lastIndexOf('/') !== basePath.length - 1) {
                         basePath += '/';
@@ -173,11 +173,22 @@ export interface ISpineMetadata {
     // If for some reason, you have the raw text content of an .atlas file, and want to use it dump it here
     atlasRawData?: string;
     // If you are hardcore and can write your own loader function to load the textures for the atlas, you can pass it here
-    imageLoader?: (loader: Loader, path: string) => (path: string, callback: (tex: BaseTexture) => any) => any;
+    imageLoader?: (loader: Loader, path: string) => (path: string, callback: (tex: TextureSource) => any) => any;
     // If you are downloading an .atlas file, this metadata will go to the Texture loader
     imageMetadata?: any;
     // If you already have atlas pages loaded as pixi textures and want to use that to create the atlas, you can pass them here
-    images?: Record<string, Texture | BaseTexture>;
+    images?: Record<string, Texture | TextureSource>;
     // If your spine only uses one atlas page and you have it as a pixi texture, you can pass it here
-    image?: Texture | BaseTexture;
+    image?: Texture | TextureSource;
+}
+/**
+ * Metadata for loading spine assets
+ * @public
+ */
+export interface LoadAsset<T=any>
+{
+    src: string;
+    data?: T;
+    alias?: string[];
+    format?: string;
 }
