@@ -35,8 +35,6 @@ compile
 # packages ignore
 lib
 dist
-!v8/lib
-!v8/dist
 bundles/*/index.d.ts
 packages/*/index.d.ts
 
