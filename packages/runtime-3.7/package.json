@@ -1,5 +1,5 @@
 {
-  "name": "@pixi-spine/runtime-3.7",
+  "name": "@pixi-v8-patch-spine/runtime-3.7",
   "version": "4.0.3",
   "description": "Pixi runtime for spine 3.7 models",
   "main": "lib/index.js",
@@ -17,11 +17,11 @@
     "bundle": "dist/runtime-3.7.js",
     "bundleModule": "dist/runtime-3.7.mjs",
     "globals": {
-      "@pixi-spine/base": "PIXI.spine"
+      "@pixi-v8-patch-spine/base": "PIXI.spine"
     }
   },
   "peerDependencies": {
-    "@pixi-spine/base": "^4.0.0",
+    "@pixi-v8-patch-spine/base": "^4.0.0",
     "@pixi/core": "^7.0.0"
   },
   "scripts": {
@@ -52,6 +52,6 @@
   "license": "SEE SPINE-LICENSE",
   "homepage": "https://github.com/pixijs/pixi-spine/#readme",
   "devDependencies": {
-    "@pixi-spine/rollup-config": "*"
+    "@pixi-v8-patch-spine/rollup-config": "*"
   }
 }

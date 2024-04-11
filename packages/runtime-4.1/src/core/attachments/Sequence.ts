@@ -1,4 +1,4 @@
-import { Utils, TextureRegion, IHasTextureRegion, ISequence } from '@pixi-spine/base';
+import { Utils, TextureRegion, IHasTextureRegion, ISequence } from '@pixi-v8-patch-spine/base';
 import type { Slot } from '../Slot';
 
 /**

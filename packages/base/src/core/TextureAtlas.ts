@@ -210,7 +210,7 @@ export class TextureAtlas implements Disposable {
                             page.height = texture.resourceHeight;
                             if (!page.width || !page.height) {
                                 console.log(
-                                    `ERROR spine atlas page ${page.name}: meshes wont work if you dont specify size in atlas (http://www.html5gamedevs.com/topic/18888-pixi-spines-and-meshes/?p=107121)`
+                                    `ERROR spine atlas page ${page.name}: meshes wont work if you dont specify size in atlas (http://www.html5gamedevs.com/topic/18888-pixi-v8-patch-spines-and-meshes/?p=107121)`
                                 );
                             }
                         }

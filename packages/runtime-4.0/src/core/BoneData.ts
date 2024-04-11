@@ -1,4 +1,4 @@
-import { Color, TransformMode } from '@pixi-spine/base';
+import { Color, TransformMode } from '@pixi-v8-patch-spine/base';
 
 /** Stores the setup pose for a {@link Bone}.
  * @public

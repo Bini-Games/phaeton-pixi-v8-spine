@@ -1,6 +1,6 @@
 declare namespace GlobalMixins
 {
     interface LoaderResource {
-        spineData?: import('@pixi-spine/base').ISkeletonData;
+        spineData?: import('@pixi-v8-patch-spine/base').ISkeletonData;
     }
 }

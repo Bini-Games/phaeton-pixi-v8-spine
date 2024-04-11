@@ -1,4 +1,4 @@
-import type { IEventData } from '@pixi-spine/base';
+import type { IEventData } from '@pixi-v8-patch-spine/base';
 
 /** Stores the setup pose values for an {@link Event}.
  *

@@ -28,7 +28,7 @@ import {
     TranslateTimeline,
     TwoColorTimeline,
 } from './Animation';
-import { ArrayLike, Color, PositionMode, RotateMode, TransformMode, Utils, settings } from '@pixi-spine/base';
+import { ArrayLike, Color, PositionMode, RotateMode, TransformMode, Utils, settings } from '@pixi-v8-patch-spine/base';
 import { BLEND_MODES } from '@pixi/core';
 
 /**
@@ -55,7 +55,7 @@ export class SkeletonJson {
             skeletonData.hash = skeletonMap.hash;
             skeletonData.version = skeletonMap.spine;
             if (skeletonData.version.substr(0, 3) !== '3.8') {
-                const error = `Spine 3.8 loader cant load version ${skeletonMap.spine}. Please configure your pixi-spine bundle`;
+                const error = `Spine 3.8 loader cant load version ${skeletonMap.spine}. Please configure your pixi-v8-patch-spine bundle`;
 
                 console.error(error);
             }

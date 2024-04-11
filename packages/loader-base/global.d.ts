@@ -14,6 +14,6 @@ declare namespace GlobalMixins
     }
 
     interface LoaderResource {
-        spineAtlas?: import('@pixi-spine/base').TextureAtlas;
+        spineAtlas?: import('@pixi-v8-patch-spine/base').TextureAtlas;
     }
 }

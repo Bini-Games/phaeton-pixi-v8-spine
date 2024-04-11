@@ -1,5 +1,5 @@
 {
-  "name": "@pixi-spine/all-3.8",
+  "name": "@pixi-v8-patch-spine/all-3.8",
   "version": "4.0.4",
   "description": "Pixi integration with EsotericSoftware Spine, big, contains runtime for 3.8",
   "main": "lib/index.js",
@@ -14,20 +14,20 @@
   },
   "extensionConfig": {
     "namespace": "PIXI.spine",
-    "bundle": "dist/pixi-spine-3.8.js",
-    "bundleModule": "dist/pixi-spine-3.8.mjs",
+    "bundle": "dist/pixi-v8-patch-spine-3.8.js",
+    "bundleModule": "dist/pixi-v8-patch-spine-3.8.mjs",
     "globals": {
-      "@pixi-spine/base": "PIXI.spine",
-      "@pixi-spine/loader-3.8": "PIXI.spine",
-      "@pixi-spine/loader-base": "PIXI.spine",
-      "@pixi-spine/runtime-3.8": "PIXI.spine38"
+      "@pixi-v8-patch-spine/base": "PIXI.spine",
+      "@pixi-v8-patch-spine/loader-3.8": "PIXI.spine",
+      "@pixi-v8-patch-spine/loader-base": "PIXI.spine",
+      "@pixi-v8-patch-spine/runtime-3.8": "PIXI.spine38"
     }
   },
   "dependencies": {
-    "@pixi-spine/base": "^4.0.3",
-    "@pixi-spine/loader-3.8": "^4.0.3",
-    "@pixi-spine/loader-base": "^4.0.4",
-    "@pixi-spine/runtime-3.8": "^4.0.3"
+    "@pixi-v8-patch-spine/base": "^4.0.3",
+    "@pixi-v8-patch-spine/loader-3.8": "^4.0.3",
+    "@pixi-v8-patch-spine/loader-base": "^4.0.4",
+    "@pixi-v8-patch-spine/runtime-3.8": "^4.0.3"
   },
   "peerDependencies": {
     "@pixi/assets": "^7.0.0",
@@ -76,6 +76,6 @@
   "license": "SEE SPINE-LICENSE",
   "homepage": "https://github.com/pixijs/pixi-spine/#readme",
   "devDependencies": {
-    "@pixi-spine/rollup-config": "*"
+    "@pixi-v8-patch-spine/rollup-config": "*"
   }
 }

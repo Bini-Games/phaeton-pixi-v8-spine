@@ -1,12 +1,12 @@
 {
-  "name": "@pixi-spine/rollup-config",
+  "name": "@pixi-v8-patch-spine/rollup-config",
   "version": "1.0.0",
   "description": "ESLint config for pixi-spine",
   "main": "index.mjs",
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "echo @pixi-spine/rollup-config does not build!"
+    "build": "echo @pixi-v8-patch-spine/rollup-config does not build!"
   },
   "repository": {
     "type": "git",

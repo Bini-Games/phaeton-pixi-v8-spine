@@ -1,4 +1,4 @@
-import type { ISkeletonData } from '@pixi-spine/base';
+import type { ISkeletonData } from '@pixi-v8-patch-spine/base';
 import type { Animation } from './Animation';
 import type { BoneData } from './BoneData';
 import type { SlotData } from './SlotData';

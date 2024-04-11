@@ -4,7 +4,7 @@
         "outDir": "compile",
         "baseUrl": "./",
         "paths": {
-            "@pixi-spine/*": [
+            "@pixi-v8-patch-spine/*": [
                 "packages/*/src"
             ]
         }

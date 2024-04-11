@@ -1,5 +1,5 @@
 {
-  "name": "pixi-spine-parent",
+  "name": "pixi-v8-patch-spine-parent",
   "version": "3.0.0",
   "description": "Parent package for pixi-spine",
   "main": "index.js",

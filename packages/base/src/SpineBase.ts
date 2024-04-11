@@ -314,7 +314,7 @@ export abstract class SpineBase<
                         slot.currentSpriteName = spriteName;
 
                         // force sprite update when attachment name is same.
-                        // issues https://github.com/pixijs/pixi-spine/issues/318
+                        // issues https://github.com/pixijs/pixi-v8-patch-spine/issues/318
                     }
                     slot.currentSprite.renderable = true;
                     if (!slot.hackRegion) {

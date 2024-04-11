@@ -39,7 +39,7 @@ import { TransformConstraintData } from './TransformConstraintData';
 import { PathConstraintData, SpacingMode } from './PathConstraintData';
 import { Skin } from './Skin';
 import { EventData } from './EventData';
-import { AttachmentType, BinaryInput, Color, PositionMode, Utils } from '@pixi-spine/base';
+import { AttachmentType, BinaryInput, Color, PositionMode, Utils } from '@pixi-v8-patch-spine/base';
 import { BLEND_MODES } from '@pixi/core';
 
 /** Loads skeleton data in the Spine binary format.
@@ -79,7 +79,7 @@ export class SkeletonBinary {
         skeletonData.hash = highHash == 0 && lowHash == 0 ? null : highHash.toString(16) + lowHash.toString(16);
         skeletonData.version = input.readString();
         if (skeletonData.version.substr(0, 3) !== '4.0') {
-            const error = `Spine 4.0 loader cant load version ${skeletonData.version}. Please configure your pixi-spine bundle`;
+            const error = `Spine 4.0 loader cant load version ${skeletonData.version}. Please configure your pixi-v8-patch-spine bundle`;
 
             console.error(error);
         }

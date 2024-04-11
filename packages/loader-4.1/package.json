@@ -1,5 +1,5 @@
 {
-  "name": "@pixi-spine/loader-4.1",
+  "name": "@pixi-v8-patch-spine/loader-4.1",
   "version": "4.0.3",
   "description": "Pixi loader middleware for spine 4.1 models",
   "main": "lib/index.js",
@@ -17,13 +17,13 @@
     "bundle": "dist/loader-4.1.js",
     "bundleModule": "dist/loader-4.1.mjs",
     "globals": {
-      "@pixi-spine/runtime-4.1": "PIXI.spine41",
-      "@pixi-spine/loader-base": "PIXI.spine"
+      "@pixi-v8-patch-spine/runtime-4.1": "PIXI.spine41",
+      "@pixi-v8-patch-spine/loader-base": "PIXI.spine"
     }
   },
   "peerDependencies": {
-    "@pixi-spine/loader-base": "^4.0.0",
-    "@pixi-spine/runtime-4.1": "^4.0.0"
+    "@pixi-v8-patch-spine/loader-base": "^4.0.0",
+    "@pixi-v8-patch-spine/runtime-4.1": "^4.0.0"
   },
   "scripts": {
     "build": "run-p build:*",
@@ -52,6 +52,6 @@
   },
   "homepage": "https://github.com/pixijs/pixi-spine/#readme",
   "devDependencies": {
-    "@pixi-spine/rollup-config": "*"
+    "@pixi-v8-patch-spine/rollup-config": "*"
   }
 }

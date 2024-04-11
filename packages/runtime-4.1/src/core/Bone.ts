@@ -2,7 +2,7 @@ import { Matrix } from 'pixi.js';
 import type { Updatable } from './Updatable';
 import type { BoneData } from './BoneData';
 import type { Skeleton } from './Skeleton';
-import { IBone, MathUtils, settings, TransformMode, Vector2 } from '@pixi-spine/base';
+import { IBone, MathUtils, settings, TransformMode, Vector2 } from '@pixi-v8-patch-spine/base';
 
 /** Stores a bone's current pose.
  *

@@ -1,5 +1,5 @@
 {
-  "name": "@pixi-spine/base",
+  "name": "@pixi-v8-patch-spine/base",
   "version": "4.0.3",
   "description": "Base of pixi-spine integration, common files for spine runtimes of different versions",
   "main": "lib/index.js",
@@ -48,6 +48,6 @@
   },
   "homepage": "https://github.com/pixijs/pixi-spine/#readme",
   "devDependencies": {
-    "@pixi-spine/rollup-config": "*"
+    "@pixi-v8-patch-spine/rollup-config": "*"
   }
 }

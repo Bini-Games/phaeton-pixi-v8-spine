@@ -1,4 +1,4 @@
-import { IAnimationState, IAnimationStateListener, ITrackEntry, MathUtils, MixBlend, MixDirection, Pool, IntSet, Utils } from '@pixi-spine/base';
+import { IAnimationState, IAnimationStateListener, ITrackEntry, MathUtils, MixBlend, MixDirection, Pool, IntSet, Utils } from '@pixi-v8-patch-spine/base';
 import { Animation, AttachmentTimeline, DrawOrderTimeline, RotateTimeline, Timeline } from './Animation';
 import type { AnimationStateData } from './AnimationStateData';
 import type { Event } from './Event';
@@ -151,7 +151,7 @@ export class AnimationState implements IAnimationState<AnimationStateData> {
                 for (let ii = 0; ii < timelineCount; ii++) {
                     // Fixes issue #302 on IOS9 where mix, blend sometimes became undefined and caused assets
                     // to sometimes stop rendering when using color correction, as their RGBA values become NaN.
-                    // (https://github.com/pixijs/pixi-spine/issues/302)
+                    // (https://github.com/pixijs/pixi-v8-patch-spine/issues/302)
                     Utils.webkit602BugfixHelper(mix, blend);
                     timelines[ii].apply(skeleton, animationLast, animationTime, events, mix, blend, MixDirection.mixIn);
                 }

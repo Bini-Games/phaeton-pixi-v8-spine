@@ -4,7 +4,7 @@
 export const settings = {
     yDown: true,
     /**
-     * pixi-spine gives option to not fail at certain parsing errors
+     * pixi-v8-patch-spine gives option to not fail at certain parsing errors
      * spine-ts fails here
      */
     FAIL_ON_NON_EXISTING_SKIN: false,
