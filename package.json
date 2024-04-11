@@ -13,6 +13,9 @@
     "lernaPublish": "lerna publish --no-private",
     "lernaPublish:fromPackage": "lerna publish from-package --no-private"
   },
+  "exports": {
+    "./": "./v8/"
+  },
   "workspaces": [
     "packages/*",
     "bundles/*",
