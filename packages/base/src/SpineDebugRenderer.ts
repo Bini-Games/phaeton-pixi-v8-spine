@@ -1,5 +1,4 @@
-import { Container } from '@pixi/display';
-import { Graphics } from '@pixi/graphics';
+import { Container, Graphics } from 'pixi.js';
 import type { IAnimationState, IAnimationStateData } from './core/IAnimation';
 import type { IClippingAttachment, IMeshAttachment, IRegionAttachment, ISkeleton, ISkeletonData, IVertexAttachment } from './core/ISkeleton';
 import type { SpineBase } from './SpineBase';
@@ -129,7 +128,7 @@ export class SpineDebugRenderer implements ISpineDebugRenderer {
         debugDisplayObjects.pathsLine.clear();
 
         for (let len = debugDisplayObjects.bones.children.length; len > 0; len--) {
-            debugDisplayObjects.bones.children[len - 1].destroy({ children: true, texture: true, baseTexture: true });
+            debugDisplayObjects.bones.children[len - 1].destroy(true);
         }
 
         const scale = spine.scale.x || spine.scale.y || 1;
@@ -216,7 +215,7 @@ export class SpineDebugRenderer implements ISpineDebugRenderer {
             const refRation = c / 50 / scale;
 
             gp.beginFill(this.bonesColor, 1);
-            gp.drawPolygon(0, 0, 0 - refRation, c - refRation * 3, 0, c - refRation, 0 + refRation, c - refRation * 3);
+            gp.drawPolygon([0, 0, 0 - refRation, c - refRation * 3, 0, c - refRation, 0 + refRation, c - refRation * 3]);
             gp.endFill();
             gp.x = starX;
             gp.y = starY;
@@ -516,7 +515,7 @@ export class SpineDebugRenderer implements ISpineDebugRenderer {
         }
         const debugDisplayObjects = this.registeredSpines.get(spine);
 
-        debugDisplayObjects.parentDebugContainer.destroy({ baseTexture: true, children: true, texture: true });
+        debugDisplayObjects.parentDebugContainer.destroy(true);
         this.registeredSpines.delete(spine);
     }
 }

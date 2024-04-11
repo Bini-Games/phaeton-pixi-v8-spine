@@ -3,11 +3,7 @@ import { TextureRegion } from './core/TextureRegion';
 import { MathUtils } from './core/Utils';
 import type { IAnimationState, IAnimationStateData } from './core/IAnimation';
 import type { IAttachment, IClippingAttachment, IMeshAttachment, IRegionAttachment, ISkeleton, ISkeletonData, ISlot, IVertexAttachment } from './core/ISkeleton';
-import { DRAW_MODES, Rectangle, Polygon, Transform, Texture, utils } from '@pixi/core';
-import { Container, DisplayObject } from '@pixi/display';
-import { Sprite } from '@pixi/sprite';
-import { SimpleMesh } from '@pixi/mesh-extras';
-import { Graphics } from '@pixi/graphics';
+import { Container, Sprite, MeshSimple, Graphics, Rectangle, Polygon, Transform, Texture, Topology, Color } from 'pixi.js';
 import { settings } from './settings';
 import type { ISpineDebugRenderer } from './SpineDebugRenderer';
 
@@ -16,7 +12,7 @@ const tempRgb = [0, 0, 0];
 /**
  * @public
  */
-export interface ISpineDisplayObject extends DisplayObject {
+export interface ISpineDisplayObject extends Container {
     region?: TextureRegion;
     attachment?: IAttachment;
 }
@@ -32,12 +28,18 @@ export class SpineSprite extends Sprite implements ISpineDisplayObject {
 /**
  * @public
  */
-export class SpineMesh extends SimpleMesh implements ISpineDisplayObject {
+export class SpineMesh extends MeshSimple implements ISpineDisplayObject {
     region?: TextureRegion = null;
     attachment?: IAttachment = null;
 
-    constructor(texture: Texture, vertices?: Float32Array, uvs?: Float32Array, indices?: Uint16Array, drawMode?: number) {
-        super(texture, vertices, uvs, indices, drawMode);
+    constructor(texture: Texture, vertices?: Float32Array, uvs?: Float32Array, indices?: Uint32Array, topology?: Topology) {
+        super({
+            texture,
+            vertices,
+            uvs,
+            indices,
+            topology
+        });
     }
 }
 
@@ -65,7 +67,7 @@ export abstract class SpineBase<
     extends Container
     implements GlobalMixins.Spine
 {
-    tintRgb: ArrayLike<number>;
+    tintRgb: number[];
     spineData: SkeletonData;
     skeleton: Skeleton;
     stateData: AnimationStateData;
@@ -164,7 +166,7 @@ export abstract class SpineBase<
          * @member {number}
          * @memberof spine.Spine#
          */
-        this.tintRgb = new Float32Array([1, 1, 1]);
+        this.tintRgb = [1, 1, 1];
 
         this.autoUpdate = true;
         this.visible = true;
@@ -188,7 +190,7 @@ export abstract class SpineBase<
     set autoUpdate(value: boolean) {
         if (value !== this._autoUpdate) {
             this._autoUpdate = value;
-            this.updateTransform = value ? SpineBase.prototype.autoUpdateTransform : Container.prototype.updateTransform;
+            this.updateLocalTransform = value ? SpineBase.prototype.autoUpdateTransform : Container.prototype.updateLocalTransform;
         }
     }
 
@@ -200,11 +202,11 @@ export abstract class SpineBase<
      * @default 0xFFFFFF
      */
     get tint(): number {
-        return utils.rgb2hex(this.tintRgb as any);
+        return Color.shared.setValue(this.tintRgb).toNumber();
     }
 
     set tint(value: number) {
-        this.tintRgb = utils.hex2rgb(value, this.tintRgb as any);
+        this.tintRgb = Color.shared.setValue(value).toRgbArray();
     }
 
     /**
@@ -277,9 +279,9 @@ export abstract class SpineBase<
 
             switch (attachment != null && attachment.type) {
                 case AttachmentType.Region:
-                    const transform = slotContainer.transform;
+                    const transform = slotContainer.localTransform;
 
-                    transform.setFromMatrix(slot.bone.matrix);
+                    transform.copyFrom(slot.bone.matrix);
 
                     region = (attachment as IRegionAttachment).region;
                     if (slot.currentMesh) {
@@ -325,7 +327,7 @@ export abstract class SpineBase<
                         tempRgb[0] = light[0] * slot.color.r * attColor.r;
                         tempRgb[1] = light[1] * slot.color.g * attColor.g;
                         tempRgb[2] = light[2] * slot.color.b * attColor.b;
-                        slot.currentSprite.tint = utils.rgb2hex(tempRgb);
+                        slot.currentSprite.tint = Color.shared.setValue(tempRgb).toNumber();
                     }
                     slot.currentSprite.blendMode = slot.blendMode;
                     break;
@@ -340,9 +342,7 @@ export abstract class SpineBase<
                         // TODO: refactor this shit
                         const transform = new Transform();
 
-                        (transform as any)._parentID = -1;
-                        (transform as any)._worldID = (slotContainer.transform as any)._worldID;
-                        slotContainer.transform = transform;
+                        slotContainer.setFromMatrix(transform.matrix);
                     }
                     if (!region) {
                         if (slot.currentMesh) {
@@ -383,7 +383,7 @@ export abstract class SpineBase<
                         tempRgb[0] = light[0] * slot.color.r * attColor.r;
                         tempRgb[1] = light[1] * slot.color.g * attColor.g;
                         tempRgb[2] = light[2] * slot.color.b * attColor.b;
-                        slot.currentMesh.tint = utils.rgb2hex(tempRgb);
+                        slot.currentMesh.tint = Color.shared.setValue(tempRgb).toNumber();
                     }
                     slot.currentMesh.blendMode = slot.blendMode;
                     if (!slot.hackRegion) {
@@ -516,7 +516,7 @@ export abstract class SpineBase<
         mesh.attachment = attachment;
         mesh.texture = region.texture;
         region.texture.updateUvs();
-        mesh.uvBuffer.update(attachment.regionUVs);
+        mesh.geometry.attributes.aUV.buffer.data = attachment.regionUVs;
     }
 
     protected lastTime: number;
@@ -537,7 +537,7 @@ export abstract class SpineBase<
             this.lastTime = 0;
         }
 
-        Container.prototype.updateTransform.call(this);
+        Container.prototype.updateLocalTransform.call(this);
     }
 
     /**
@@ -585,8 +585,8 @@ export abstract class SpineBase<
             region ? region.texture : null,
             new Float32Array(attachment.regionUVs.length),
             attachment.regionUVs,
-            new Uint16Array(attachment.triangles),
-            DRAW_MODES.TRIANGLES
+            new Uint32Array(attachment.triangles),
+            'triangle-list'
         );
 
         if (typeof (strip as any)._canvasPadding !== 'undefined') {
@@ -759,8 +759,8 @@ export abstract class SpineBase<
         return new Graphics();
     }
 
-    newMesh(texture: Texture, vertices?: Float32Array, uvs?: Float32Array, indices?: Uint16Array, drawMode?: number) {
-        return new SpineMesh(texture, vertices, uvs, indices, drawMode);
+    newMesh(texture: Texture, vertices?: Float32Array, uvs?: Float32Array, indices?: Uint32Array, topology?: Topology) {
+        return new SpineMesh(texture, vertices, uvs, indices, topology);
     }
 
     transformHack() {
