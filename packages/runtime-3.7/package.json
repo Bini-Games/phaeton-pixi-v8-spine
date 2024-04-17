@@ -1,6 +1,6 @@
 {
   "name": "@pixi-v8-patch-spine/runtime-3.7",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "Pixi runtime for spine 3.7 models",
   "main": "lib/index.js",
   "module": "lib/index.mjs",
@@ -21,7 +21,7 @@
     }
   },
   "peerDependencies": {
-    "@pixi-v8-patch-spine/base": "^5.0.0",
+    "@pixi-v8-patch-spine/base": "^5.0.1",
     "pixi.js": "8.0.0"
   },
   "scripts": {

@@ -1,6 +1,6 @@
 {
   "name": "@pixi-v8-patch-spine/all-3.8",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "Pixi integration with EsotericSoftware Spine, big, contains runtime for 3.8",
   "main": "lib/index.js",
   "module": "lib/index.mjs",
@@ -24,10 +24,10 @@
     }
   },
   "dependencies": {
-    "@pixi-v8-patch-spine/base": "^5.0.0",
-    "@pixi-v8-patch-spine/loader-3.8": "^5.0.0",
-    "@pixi-v8-patch-spine/loader-base": "^5.0.0",
-    "@pixi-v8-patch-spine/runtime-3.8": "^5.0.0"
+    "@pixi-v8-patch-spine/base": "^5.0.1",
+    "@pixi-v8-patch-spine/loader-3.8": "^5.0.1",
+    "@pixi-v8-patch-spine/loader-base": "^5.0.1",
+    "@pixi-v8-patch-spine/runtime-3.8": "^5.0.1"
   },
   "peerDependencies": {
     "pixi.js": "8.0.0"

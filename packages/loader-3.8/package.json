@@ -1,6 +1,6 @@
 {
   "name": "@pixi-v8-patch-spine/loader-3.8",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "Pixi loader middleware for spine 3.8 models",
   "main": "lib/index.js",
   "module": "lib/index.mjs",
@@ -22,8 +22,8 @@
     }
   },
   "peerDependencies": {
-    "@pixi-v8-patch-spine/loader-base": "^5.0.0",
-    "@pixi-v8-patch-spine/runtime-3.8": "^5.0.0"
+    "@pixi-v8-patch-spine/loader-base": "^5.0.1",
+    "@pixi-v8-patch-spine/runtime-3.8": "^5.0.1"
   },
   "scripts": {
     "build": "run-p build:*",
