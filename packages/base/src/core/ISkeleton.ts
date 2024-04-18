@@ -158,7 +158,7 @@ export interface ISlot {
     data: ISlotData;
     color: Color;
     darkColor: Color;
-    blendMode: number;
+    blendMode: string;
     bone: IBone;
 
     sprites?: any;
