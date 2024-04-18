@@ -75,7 +75,6 @@ export abstract class SpineBase<
     slotContainers: Array<Container>;
     tempClipContainers: Array<Container>;
     localDelayLimit: number;
-    private _autoUpdate: boolean;
     protected _visible: boolean;
     private _debug: ISpineDebugRenderer;
     public get debug(): ISpineDebugRenderer {
@@ -168,30 +167,7 @@ export abstract class SpineBase<
          */
         this.tintRgb = [1, 1, 1];
 
-        this.autoUpdate = true;
         this.visible = true;
-    }
-
-    /**
-     * If this flag is set to true, the spine animation will be automatically updated every
-     * time the object id drawn. The down side of this approach is that the delta time is
-     * automatically calculated and you could miss out on cool effects like slow motion,
-     * pause, skip ahead and the sorts. Most of these effects can be achieved even with
-     * autoUpdate enabled but are harder to achieve.
-     *
-     * @member {boolean}
-     * @memberof spine.Spine#
-     * @default true
-     */
-    get autoUpdate(): boolean {
-        return this._autoUpdate;
-    }
-
-    set autoUpdate(value: boolean) {
-        if (value !== this._autoUpdate) {
-            this._autoUpdate = value;
-            this.updateLocalTransform = value ? SpineBase.prototype.autoUpdateTransform : Container.prototype.updateLocalTransform;
-        }
     }
 
     /**
@@ -522,11 +498,9 @@ export abstract class SpineBase<
     protected lastTime: number;
 
     /**
-     * When autoupdate is set to yes this function is used as pixi's updateTransform function
-     *
      * @private
      */
-    autoUpdateTransform() {
+    autoUpdate() {
         if (settings.GLOBAL_AUTO_UPDATE) {
             this.lastTime = this.lastTime || Date.now();
             const timeDelta = (Date.now() - this.lastTime) * 0.001;
@@ -536,8 +510,6 @@ export abstract class SpineBase<
         } else {
             this.lastTime = 0;
         }
-
-        Container.prototype.updateLocalTransform.call(this);
     }
 
     /**
