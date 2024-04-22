@@ -97,19 +97,19 @@ export class TextureRegion {
     }
 
     get u(): number {
-        return (this.texture as any)._uvs.x0;
+        return this.texture.uvs.x0;
     }
 
     get v(): number {
-        return (this.texture as any)._uvs.y0;
+        return this.texture.uvs.y0;
     }
 
     get u2(): number {
-        return (this.texture as any)._uvs.x2;
+        return this.texture.uvs.x2;
     }
 
     get v2(): number {
-        return (this.texture as any)._uvs.y2;
+        return this.texture.uvs.y2;
     }
 
     get offsetX(): number {

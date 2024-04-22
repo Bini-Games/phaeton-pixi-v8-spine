@@ -580,14 +580,15 @@ export abstract class SpineBase<
 
     static clippingPolygon: Array<number> = [];
 
-    // @ts-ignore
     createGraphics(slot: ISlot, clip: IClippingAttachment) {
         const graphics = this.newGraphics();
-        const poly = new Polygon([]);
 
         graphics.clear();
-        graphics.beginFill(0xffffff, 1);
-        graphics.drawPolygon(poly as any);
+        graphics.poly([]);
+        graphics.fill({
+            color: 0xffffff,
+            alpha: 1
+        })
         graphics.renderable = false;
         slot.currentGraphics = graphics;
         slot.clippingContainer = this.newContainer();

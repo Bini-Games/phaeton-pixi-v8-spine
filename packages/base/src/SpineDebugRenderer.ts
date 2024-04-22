@@ -170,7 +170,11 @@ export class SpineDebugRenderer implements ISpineDebugRenderer {
         const skeletonY = skeleton.y;
         const bones = skeleton.bones;
 
-        debugDisplayObjects.skeletonXY.lineStyle(lineWidth, this.skeletonXYColor, 1);
+        debugDisplayObjects.skeletonXY.setStrokeStyle({
+            width: lineWidth,
+            color: this.skeletonXYColor,
+            alpha: 1
+        });
 
         for (let i = 0, len = bones.length; i < len; i++) {
             const bone = bones[i];
@@ -214,9 +218,11 @@ export class SpineDebugRenderer implements ISpineDebugRenderer {
             // draw bone
             const refRation = c / 50 / scale;
 
-            gp.beginFill(this.bonesColor, 1);
-            gp.drawPolygon([0, 0, 0 - refRation, c - refRation * 3, 0, c - refRation, 0 + refRation, c - refRation * 3]);
-            gp.endFill();
+            gp.poly([0, 0, 0 - refRation, c - refRation * 3, 0, c - refRation, 0 + refRation, c - refRation * 3]);
+            gp.fill({
+                color: this.bonesColor,
+                alpha: 1
+            });
             gp.x = starX;
             gp.y = starY;
             gp.pivot.y = c;
@@ -252,10 +258,16 @@ export class SpineDebugRenderer implements ISpineDebugRenderer {
             gp.rotation = rotation;
 
             // Draw the starting rotation point of the bone
-            gp.lineStyle(lineWidth + refRation / 2.4, this.bonesColor, 1);
-            gp.beginFill(0x000000, 0.6);
-            gp.drawCircle(0, c, refRation * 1.2);
-            gp.endFill();
+            gp.setStrokeStyle({
+                width: lineWidth + refRation / 2.4,
+                color: this.bonesColor,
+                alpha: 1
+            });
+            gp.circle(0, c, refRation * 1.2);
+            gp.fill({
+                color: 0x000000,
+                alpha: 0.6
+            });
         }
 
         // Draw the skeleton starting point "X" form
@@ -275,7 +287,11 @@ export class SpineDebugRenderer implements ISpineDebugRenderer {
         const skeleton = spine.skeleton;
         const slots = skeleton.slots;
 
-        debugDisplayObjects.regionAttachmentsShape.lineStyle(lineWidth, this.regionAttachmentsColor, 1);
+        debugDisplayObjects.regionAttachmentsShape.setStrokeStyle({
+            width: lineWidth,
+            color: this.regionAttachmentsColor,
+            alpha: 1
+        });
 
         for (let i = 0, len = slots.length; i < len; i++) {
             const slot = slots[i];
@@ -295,7 +311,7 @@ export class SpineDebugRenderer implements ISpineDebugRenderer {
             if (regionAttachment.updateOffset) regionAttachment.updateOffset(); // We don't need this on all versions
 
             regionAttachment.computeWorldVertices(slot, vertices, 0, 2);
-            debugDisplayObjects.regionAttachmentsShape.drawPolygon(Array.from(vertices.slice(0, 8)));
+            debugDisplayObjects.regionAttachmentsShape.poly(Array.from(vertices.slice(0, 8)));
         }
     }
 
@@ -307,8 +323,16 @@ export class SpineDebugRenderer implements ISpineDebugRenderer {
         const skeleton = spine.skeleton;
         const slots = skeleton.slots;
 
-        debugDisplayObjects.meshHullLine.lineStyle(lineWidth, this.meshHullColor, 1);
-        debugDisplayObjects.meshTrianglesLine.lineStyle(lineWidth, this.meshTrianglesColor, 1);
+        debugDisplayObjects.meshHullLine.setStrokeStyle({
+            width: lineWidth,
+            color: this.meshHullColor,
+            alpha: 1
+        });
+        debugDisplayObjects.meshTrianglesLine.setStrokeStyle({
+            width: lineWidth,
+            color: this.meshTrianglesColor,
+            alpha: 1
+        });
 
         for (let i = 0, len = slots.length; i < len; i++) {
             const slot = slots[i];
@@ -365,7 +389,11 @@ export class SpineDebugRenderer implements ISpineDebugRenderer {
         const skeleton = spine.skeleton;
         const slots = skeleton.slots;
 
-        debugDisplayObjects.clippingPolygon.lineStyle(lineWidth, this.clippingPolygonColor, 1);
+        debugDisplayObjects.clippingPolygon.setStrokeStyle({
+            width: lineWidth,
+            color: this.clippingPolygonColor,
+            alpha: 1
+        });
         for (let i = 0, len = slots.length; i < len; i++) {
             const slot = slots[i];
 
@@ -384,7 +412,7 @@ export class SpineDebugRenderer implements ISpineDebugRenderer {
             const world = new Float32Array(nn);
 
             clippingAttachment.computeWorldVertices(slot, 0, nn, world, 0, 2);
-            debugDisplayObjects.clippingPolygon.drawPolygon(Array.from(world));
+            debugDisplayObjects.clippingPolygon.poly(Array.from(world));
         }
     }
 
@@ -394,17 +422,24 @@ export class SpineDebugRenderer implements ISpineDebugRenderer {
         lineWidth: number
     ): void {
         // draw the total outline of the bounding box
-        debugDisplayObjects.boundingBoxesRect.lineStyle(lineWidth, this.boundingBoxesRectColor, 5);
+        debugDisplayObjects.boundingBoxesRect.setStrokeStyle({
+            width: lineWidth,
+            color: this.boundingBoxesRectColor,
+            alpha: 5
+        });
 
         const bounds = new SkeletonBoundsBase();
 
         bounds.update(spine.skeleton, true);
-        debugDisplayObjects.boundingBoxesRect.drawRect(bounds.minX, bounds.minY, bounds.getWidth(), bounds.getHeight());
+        debugDisplayObjects.boundingBoxesRect.rect(bounds.minX, bounds.minY, bounds.getWidth(), bounds.getHeight());
 
         const polygons = bounds.polygons;
         const drawPolygon = (polygonVertices: ArrayLike<number>, _offset: unknown, count: number): void => {
-            debugDisplayObjects.boundingBoxesPolygon.lineStyle(lineWidth, this.boundingBoxesPolygonColor, 1);
-            debugDisplayObjects.boundingBoxesPolygon.beginFill(this.boundingBoxesPolygonColor, 0.1);
+            debugDisplayObjects.boundingBoxesPolygon.setStrokeStyle({
+                width: lineWidth,
+                color: this.boundingBoxesPolygonColor,
+                alpha: 1
+            });
 
             if (count < 3) {
                 throw new Error('Polygon must contain at least 3 vertices');
@@ -417,17 +452,21 @@ export class SpineDebugRenderer implements ISpineDebugRenderer {
                 const y1 = polygonVertices[i + 1];
 
                 // draw the bounding box node
-                debugDisplayObjects.boundingBoxesCircle.lineStyle(0);
-                debugDisplayObjects.boundingBoxesCircle.beginFill(this.boundingBoxesCircleColor);
-                debugDisplayObjects.boundingBoxesCircle.drawCircle(x1, y1, dotSize);
-                debugDisplayObjects.boundingBoxesCircle.endFill();
+                debugDisplayObjects.boundingBoxesCircle.setStrokeStyle({
+                    width: 0
+                });
+                debugDisplayObjects.boundingBoxesCircle.circle(x1, y1, dotSize);
+                debugDisplayObjects.boundingBoxesCircle.fill({ color: this.boundingBoxesCircleColor });
 
                 paths.push(x1, y1);
             }
 
             // draw the bounding box area
-            debugDisplayObjects.boundingBoxesPolygon.drawPolygon(paths);
-            debugDisplayObjects.boundingBoxesPolygon.endFill();
+            debugDisplayObjects.boundingBoxesPolygon.poly(paths);
+            debugDisplayObjects.boundingBoxesPolygon.fill({
+                color: this.boundingBoxesPolygonColor,
+                alpha: 0.1
+            });
         };
 
         for (let i = 0, len = polygons.length; i < len; i++) {
@@ -441,8 +480,16 @@ export class SpineDebugRenderer implements ISpineDebugRenderer {
         const skeleton = spine.skeleton;
         const slots = skeleton.slots;
 
-        debugDisplayObjects.pathsCurve.lineStyle(lineWidth, this.pathsCurveColor, 1);
-        debugDisplayObjects.pathsLine.lineStyle(lineWidth, this.pathsLineColor, 1);
+        debugDisplayObjects.pathsCurve.setStrokeStyle({
+            width: lineWidth,
+            color: this.pathsCurveColor,
+            alpha: 1
+        });
+        debugDisplayObjects.pathsLine.setStrokeStyle({
+            width: lineWidth,
+            color: this.pathsCurveColor,
+            alpha: 1
+        });
 
         for (let i = 0, len = slots.length; i < len; i++) {
             const slot = slots[i];
